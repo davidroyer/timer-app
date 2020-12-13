@@ -1,7 +1,8 @@
 import Vue from "vue";
 import App from "./App.vue";
-import "./registerServiceWorker";
 import "./assets/tailwind.css";
+import "./registerServiceWorker";
+// const Store = require('electron-store');
 
 Vue.config.productionTip = false;
 

@@ -50,8 +50,15 @@ export default {
     timerFinished: false,
     selectedMinutes: 15,
     oneMinute: 60,
-    secondsRemaining: null
+    secondsRemaining: null,
+    appStore: {}
   }),
+
+  async created() {
+    const store = await ipcRenderer.invoke("getStore");
+    console.log("🚀 ~ file: App.vue ~ line 59 ~ created ~ store", store);
+    this.appStore = store;
+  },
 
   computed: {
     displaySeconds() {

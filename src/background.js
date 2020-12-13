@@ -2,7 +2,11 @@
 
 import { app, BrowserWindow, ipcMain, protocol } from "electron";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
+import Store from "electron-store";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
+
+// const Store = require('electron-store');
+
 const isDevelopment = process.env.NODE_ENV !== "production";
 let win;
 // Scheme must be registered before the app is ready
@@ -84,5 +88,15 @@ if (isDevelopment) {
   }
 }
 
+const store = new Store({
+  defaults: {
+    defaultTime: 25
+  }
+});
+
 // eslint-disable-next-line no-unused-vars
 ipcMain.on("show-app", event => win.show());
+
+ipcMain.handle("getStore", () => {
+  return store.store;
+});
