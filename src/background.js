@@ -2,8 +2,8 @@
 
 import { app, BrowserWindow, ipcMain, protocol } from "electron";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
-import Store from "electron-store";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
+import store from "./background-process/store";
 
 // const Store = require('electron-store');
 
@@ -22,6 +22,7 @@ async function createWindow() {
     minHeight: 140,
     maxWidth: 600,
     maxHeight: 300,
+    // frame: false,
     isAlwaysOnTop: true,
     resizable: false,
     webPreferences: {
@@ -88,15 +89,28 @@ if (isDevelopment) {
   }
 }
 
-const store = new Store({
-  defaults: {
-    defaultTime: 25
-  }
-});
-
 // eslint-disable-next-line no-unused-vars
 ipcMain.on("show-app", event => win.show());
 
-ipcMain.handle("getStore", () => {
-  return store.store;
+ipcMain.handle("getStore", () => store.store);
+ipcMain.handle("getStoreKey", (event, key) => store.get(key));
+
+ipcMain.handle("updateSettings", async (event, value) => {
+  return await store.set(`settings`, value);
 });
+
+ipcMain.handle("updateSetting", async (event, { key, value }) => {
+  return await store.set(`settings.${key}`, value);
+});
+
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+ipcMain.handle("test", async () => {
+  return "Test worked awaiting setTimeout";
+});
+
+ipcMain.handle("setStoreKey", (event, { key, value }) => store.set(key, value));
+
+store.onDidChange("settings", newValue =>
+  win.webContents.send("settingsUpdate", newValue)
+);
