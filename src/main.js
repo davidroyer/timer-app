@@ -1,11 +1,15 @@
+import "@mdi/font/css/materialdesignicons.css";
+import "roboto-fontface/css/roboto/roboto-fontface.css";
 import Vue from "vue";
 import App from "./App.vue";
-import "./assets/tailwind.css";
+import vuetify from "./plugins/vuetify";
+// import "./assets/tailwind.css";
 import "./registerServiceWorker";
 // const Store = require('electron-store');
 
 Vue.config.productionTip = false;
 
 new Vue({
+  vuetify,
   render: h => h(App)
 }).$mount("#app");
