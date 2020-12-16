@@ -1,24 +1,30 @@
 <template>
-  <v-row class="text-center">
+  <v-row class="text-center" justify="center">
     <v-col cols="12">
-      <div v-if="!timerRunning" class="timer-setup">
-        <input
-          v-model="timerValue"
-          type="number"
-          min="1"
-          placeholder="Set Timer"
-          class="mr-2"
-          @keydown.enter="startTimer"
-          @input="timerValueDirty = true"
-        />
-        <button
+      <template v-if="!timerRunning">
+        <v-row>
+          <v-col>
+            <v-text-field
+              v-model="timerValue"
+              label="Set Timer"
+              type="number"
+              min="1"
+              @keydown.enter="startTimer"
+              @input="timerValueDirty = true"
+            />
+          </v-col>
+          <v-col>
+            <button class="btn" @click="startTimer">Start</button>
+          </v-col>
+        </v-row>
+
+        <!-- <button
           class="absolute font-mono text-xs text-gray-400 uppercase btn right-3 top-3"
           @click="startDevTimer"
         >
           Dev Test
-        </button>
-        <button class="btn" @click="startTimer">Start</button>
-      </div>
+        </button> -->
+      </template>
 
       <div v-else class="text-center text-white timer-countdown">
         <div v-if="timerFinished" class="timer-finished">
@@ -96,7 +102,7 @@ export default {
 
   methods: {
     startDevTimer() {
-      this.selectedMinutes = 0.1;
+      this.timerValue = 0.1;
       this.startTimer();
     },
 
@@ -106,7 +112,7 @@ export default {
     },
 
     runTimer() {
-      this.secondsRemaining = this.selectedMinutes * 60;
+      this.secondsRemaining = this.timerValue * 60;
 
       let countdown = setInterval(() => {
         if (this.secondsRemaining > 0) {
@@ -127,7 +133,7 @@ export default {
     resetTimer() {
       this.timerRunning = false;
       this.timerFinished = false;
-      // this.selectedMinutes = 15;
+      // this.timerValue = 15;
     }
   }
 };

@@ -22,6 +22,8 @@ async function createWindow() {
     minHeight: 140,
     maxWidth: 600,
     maxHeight: 300,
+    frame: false,
+    titleBarStyle: "hidden",
     // frame: false,
     isAlwaysOnTop: true,
     resizable: false,
@@ -110,6 +112,20 @@ ipcMain.handle("test", async () => {
 });
 
 ipcMain.handle("setStoreKey", (event, { key, value }) => store.set(key, value));
+
+ipcMain.handle("update-window", (event, payload) => {
+  console.log(
+    "🚀 ~ file: background.js ~ line 115 ~ event, payload",
+    event,
+    payload
+  );
+
+  win.minimize();
+  console.log(
+    "🚀 ~ file: background.js ~ line 122 ~ ipcMain.handle ~ win",
+    win
+  );
+});
 
 store.onDidChange("settings", newValue =>
   win.webContents.send("settingsUpdate", newValue)

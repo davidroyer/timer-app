@@ -2,12 +2,13 @@
   <v-row justify="center">
     <v-dialog
       v-model="showSettings"
+      transition="dialog-bottom-transition"
       fullscreen
       hide-overlay
-      transition="dialog-bottom-transition"
+      @click:outside="$emit('close-settings')"
     >
       <v-card tile>
-        <v-toolbar dark flat dense color="indigo lighten-1">
+        <v-toolbar dark flat dense color="indigo">
           <v-btn icon dark @click="$emit('close-settings')">
             <v-icon>mdi-arrow-left-circle</v-icon>
           </v-btn>
@@ -86,5 +87,11 @@ export default {
 .v-list-item__action {
   min-width: 45px !important;
   max-width: 45px !important;
+}
+</style>
+
+<style>
+.v-dialog--fullscreen {
+  top: 24px !important;
 }
 </style>

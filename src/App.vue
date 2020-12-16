@@ -1,5 +1,7 @@
 <template>
   <v-app>
+    <v-system-bar app lights-out color="systemBarB"></v-system-bar>
+
     <v-app-bar dense app flat color="appToolbar" dark>
       <div class="font-weight-bold text-h6">TaskTimer</div>
 
@@ -8,6 +10,8 @@
       <v-btn icon @click.stop="showSettingsView = true">
         <v-icon>mdi-settings</v-icon>
       </v-btn>
+
+      <!-- <v-btn @click="minimizeWindow">Minimize</v-btn> -->
     </v-app-bar>
 
     <v-main>
@@ -39,13 +43,16 @@ export default {
     settings: {}
   }),
 
-  async created() {
-    this.settings = await ipcRenderer.invoke("getStoreKey", "settings");
-    console.log(this.$vuetify.icons);
-    // ipcRenderer.on(
-    //   "settingsUpdate",
-    //   (event, newSettings) => (this.settings = newSettings)
-    // );
+  methods: {
+    minimizeWindow() {
+      ipcRenderer.invoke("update-window", "minimize");
+    }
   }
 };
 </script>
+
+<style>
+.v-system-bar {
+  -webkit-app-region: drag;
+}
+</style>

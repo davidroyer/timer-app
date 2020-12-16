@@ -14,6 +14,8 @@ export default new Vuetify({
         // primary: "#ee44aa",
         primary: colors.indigo,
         appToolbar: colors.indigo.darken2,
+        systemBar: colors.indigo.darken3,
+        systemBarB: colors.indigo.darken4,
         secondary: "#424242",
         accent: "#82B1FF",
         error: "#FF5252",
