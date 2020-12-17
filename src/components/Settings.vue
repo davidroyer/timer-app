@@ -8,7 +8,7 @@
       @click:outside="$emit('close-settings')"
     >
       <v-card tile>
-        <v-toolbar dark flat dense color="indigo">
+        <v-toolbar dark flat dense color="appToolbar lighten-1">
           <v-btn icon dark @click="$emit('close-settings')">
             <v-icon>mdi-arrow-left-circle</v-icon>
           </v-btn>
@@ -23,13 +23,14 @@
           </v-toolbar-items>
         </v-toolbar>
 
-        <v-list two-line class="px-8">
+        <v-list three-line class="px-3">
           <v-list-item>
             <v-list-item-action>
               <v-text-field
                 v-model="settings.defaultTime"
                 type="number"
                 @keyup.enter="saveSettings"
+                class="timer-input"
               ></v-text-field>
             </v-list-item-action>
             <v-list-item-content>

@@ -2,19 +2,34 @@
   <v-row class="text-center" justify="center">
     <v-col cols="12">
       <template v-if="!timerRunning">
-        <v-row>
-          <v-col>
+        <v-row justify="center" align="center">
+          <v-col cols="5">
             <v-text-field
               v-model="timerValue"
-              label="Set Timer"
+              single-line
+              solo-inverted
+              hide-details
               type="number"
-              min="1"
+              class="timer-input font-weight-bold display-1"
               @keydown.enter="startTimer"
               @input="timerValueDirty = true"
-            />
+            ></v-text-field>
           </v-col>
+          <v-col cols="5">
+            <v-btn
+              class="btn font-weight-bold"
+              color="primary lighten-1"
+              x-large
+              @click="startTimer"
+            >
+              Start
+            </v-btn>
+          </v-col>
+
           <v-col>
-            <button class="btn" @click="startTimer">Start</button>
+            <v-subheader>
+              Set your minutes and click go when ready to start the timer.
+            </v-subheader>
           </v-col>
         </v-row>
 
@@ -47,12 +62,6 @@
           <span>{{ displaySeconds }}</span>
         </div>
       </div>
-      <v-divider />
-      <h3>TimerValueDirty</h3>
-      <pre>{{ timerValueDirty }}</pre>
-      <br />
-      <h3>Store</h3>
-      <pre>{{ $store }}</pre>
     </v-col>
   </v-row>
 </template>
@@ -133,8 +142,9 @@ export default {
     resetTimer() {
       this.timerRunning = false;
       this.timerFinished = false;
-      // this.timerValue = 15;
     }
   }
 };
 </script>
+
+

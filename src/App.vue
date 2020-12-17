@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-system-bar app lights-out color="systemBarB"></v-system-bar>
+    <v-system-bar app lights-out color="grey darken-4"></v-system-bar>
 
     <v-app-bar dense app flat color="appToolbar" dark>
       <div class="font-weight-bold text-h6">TaskTimer</div>
@@ -54,5 +54,11 @@ export default {
 <style>
 .v-system-bar {
   -webkit-app-region: drag;
+}
+</style>
+
+<style lang="scss">
+.timer-input input {
+  text-align: center !important;
 }
 </style>
