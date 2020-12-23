@@ -29,8 +29,8 @@
               <v-text-field
                 v-model="settings.defaultTime"
                 type="number"
-                @keyup.enter="saveSettings"
                 class="timer-input"
+                @keyup.enter="saveSettings"
               ></v-text-field>
             </v-list-item-action>
             <v-list-item-content>

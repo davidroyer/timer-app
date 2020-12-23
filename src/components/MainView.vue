@@ -2,6 +2,7 @@
   <v-row class="text-center" justify="center">
     <v-col cols="12">
       <template v-if="!timerRunning">
+        <v-text-field v-model="taskName" label="Task Name" />
         <v-row justify="center" align="center">
           <v-col cols="5">
             <v-text-field
@@ -32,13 +33,6 @@
             </v-subheader>
           </v-col>
         </v-row>
-
-        <!-- <button
-          class="absolute font-mono text-xs text-gray-400 uppercase btn right-3 top-3"
-          @click="startDevTimer"
-        >
-          Dev Test
-        </button> -->
       </template>
 
       <div v-else class="text-center text-white timer-countdown">
@@ -54,12 +48,26 @@
           </div>
         </div>
 
-        <div
-          v-else
-          class="display-4 font-weight-bold grey--text text--darken-3"
-        >
-          <span>{{ displayMinutes }}:</span>
-          <span>{{ displaySeconds }}</span>
+        <div v-else class="display-4 font-weight-bold ">
+          <div class="display-1 grey--text text--darken-2" v-text="taskName" />
+          <div class="task-timer grey--text display-4">
+            <span>{{ displayMinutes }}:</span>
+            <span>{{ displaySeconds }}</span>
+          </div>
+          <div class="controls">
+            <v-btn
+              color="error"
+              x-large
+              dark
+              icon
+              @click="timerPaused = !timerPaused"
+            >
+              <v-icon>mdi-pause-circle</v-icon>
+            </v-btn>
+            <v-btn color="error" x-large dark icon @click="resetTimer">
+              <v-icon>mdi-stop-circle</v-icon>
+            </v-btn>
+          </div>
         </div>
       </div>
     </v-col>
@@ -71,7 +79,9 @@ import { ipcRenderer } from "electron";
 
 export default {
   data: () => ({
+    taskName: "",
     timerRunning: false,
+    timerPaused: false,
     timerFinished: false,
     // selectedMinutes: 15,
     oneMinute: 60,
@@ -89,17 +99,7 @@ export default {
         this.$mutations.setSelectedMinutes(newValue);
       }
     },
-    // selectedMinutes: {
-    // get() {
-    //   return this.$store.selectedMinutes;
-    // },
-    // set(newValue) {
-    //   this.$mutations.setSelectedMinutes(newValue);
-    // }
-    // },
-    // selectedMinutes() {
-    //   return this.$store.selectedMinutes;
-    // },
+
     displaySeconds() {
       const value = this.secondsRemaining % this.oneMinute;
       return value < 10 ? `0${value}` : value;
@@ -124,6 +124,7 @@ export default {
       this.secondsRemaining = this.timerValue * 60;
 
       let countdown = setInterval(() => {
+        if (this.timerPaused) return;
         if (this.secondsRemaining > 0) {
           --this.secondsRemaining;
         } else {
@@ -146,5 +147,3 @@ export default {
   }
 };
 </script>
-
-
