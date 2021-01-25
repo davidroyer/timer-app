@@ -5,6 +5,7 @@ import App from "./App.vue";
 import vuetify from "./plugins/vuetify";
 import "./registerServiceWorker";
 import "./renderer-process/v-store";
+
 Vue.config.productionTip = false;
 
 new Vue({

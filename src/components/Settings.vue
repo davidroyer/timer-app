@@ -8,11 +8,11 @@
       @click:outside="$emit('close-settings')"
     >
       <v-card tile>
-        <v-toolbar dark flat dense color="appToolbar lighten-1">
+        <v-toolbar dark flat dense color="appToolbar lighten-2">
           <v-btn icon dark @click="$emit('close-settings')">
             <v-icon>mdi-arrow-left-circle</v-icon>
           </v-btn>
-          <v-toolbar-title class="pl-1 font-weight-medium">
+          <v-toolbar-title class="pl-1 ">
             Settings
           </v-toolbar-title>
           <v-spacer></v-spacer>
@@ -42,11 +42,13 @@
           </v-list-item>
           <v-list-item>
             <v-list-item-action>
-              <v-checkbox v-model="settings.settingB"></v-checkbox>
+              <v-checkbox v-model="settings.useTaskNames"></v-checkbox>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title>Setting B</v-list-item-title>
-              <v-list-item-subtitle> </v-list-item-subtitle>
+              <v-list-item-title>Use Task Names</v-list-item-title>
+              <v-list-item-subtitle>
+                Will show input for providing a task name for each timer.
+              </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -93,6 +95,6 @@ export default {
 
 <style>
 .v-dialog--fullscreen {
-  top: 24px !important;
+  top: 48px !important;
 }
 </style>

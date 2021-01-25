@@ -1,13 +1,13 @@
 <template>
   <v-app>
-    <v-system-bar app lights-out color="grey darken-4"></v-system-bar>
+    <!-- <v-system-bar app lights-out color="appToolbar"></v-system-bar> -->
 
     <v-app-bar dense app flat color="appToolbar" dark>
-      <div class="font-weight-bold text-h6">TaskTimer</div>
+      <!-- <div class="font-weight-bold text-h6">TaskTimer</div> -->
 
       <v-spacer></v-spacer>
 
-      <v-btn icon @click.stop="showSettingsView = true">
+      <v-btn style="curser: none;" icon @click.stop="showSettingsView = true">
         <v-icon>mdi-settings</v-icon>
       </v-btn>
 
@@ -15,7 +15,7 @@
     </v-app-bar>
 
     <v-main>
-      <v-container fulid>
+      <v-container fluid>
         <MainView />
         <Settings
           :show-settings="showSettingsView"
@@ -52,7 +52,7 @@ export default {
 </script>
 
 <style>
-.v-system-bar {
+.v-app-bar {
   -webkit-app-region: drag;
 }
 </style>

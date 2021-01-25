@@ -2,23 +2,27 @@
   <v-row class="text-center" justify="center">
     <v-col cols="12">
       <template v-if="!timerRunning">
-        <v-text-field v-model="taskName" label="Task Name" />
-        <v-row justify="center" align="center">
-          <v-col cols="5">
+        <v-text-field
+          v-model="taskName"
+          label="Task Name"
+          @keydown.enter="startTimer"
+        />
+        <v-row justify="center" align="center" dense>
+          <v-col cols="6">
             <v-text-field
-              v-model="timerValue"
+              v-model.number="timerValue"
               single-line
-              solo-inverted
+              solo
               hide-details
-              type="number"
               class="timer-input font-weight-bold display-1"
+              suffix="mins"
               @keydown.enter="startTimer"
               @input="timerValueDirty = true"
             ></v-text-field>
           </v-col>
-          <v-col cols="5">
+          <v-col cols="6">
             <v-btn
-              class="btn font-weight-bold"
+              class="btn btn-startTimer font-weight-bold"
               color="primary lighten-1"
               x-large
               @click="startTimer"
@@ -26,8 +30,10 @@
               Start
             </v-btn>
           </v-col>
+        </v-row>
 
-          <v-col>
+        <v-row>
+          <v-col cols="12">
             <v-subheader>
               Set your minutes and click go when ready to start the timer.
             </v-subheader>
@@ -36,38 +42,34 @@
       </template>
 
       <div v-else class="text-center text-white timer-countdown">
-        <div v-if="timerFinished" class="timer-finished">
-          <div class="display-4 font-weight-bold grey--text text--darken-3">
-            Time Up
-          </div>
-          <div
-            class="flex max-w-xs px-4 mt-4 text-sm justify-evenly timer-finished-options"
-          >
-            <v-btn outlined @click="resetTimer">Reset</v-btn>
-            <v-btn outlined @click="repeatTimer">Repeat</v-btn>
-          </div>
-        </div>
+        <timer-finished
+          v-if="timerFinished"
+          @reset="resetTimer"
+          @repeat="repeatTimer"
+        />
 
-        <div v-else class="display-4 font-weight-bold ">
-          <div class="display-1 grey--text text--darken-2" v-text="taskName" />
-          <div class="task-timer grey--text display-4">
+        <div v-else>
+          <div class="mb-10 task-name text-h4 grey--text" v-text="taskName" />
+          <div
+            class="task-timer text-h1 font-weight-bold grey--text text--darken-3"
+          >
             <span>{{ displayMinutes }}:</span>
             <span>{{ displaySeconds }}</span>
           </div>
-          <div class="controls">
-            <v-btn
-              color="error"
-              x-large
-              dark
-              icon
-              @click="timerPaused = !timerPaused"
-            >
-              <v-icon>mdi-pause-circle</v-icon>
-            </v-btn>
-            <v-btn color="error" x-large dark icon @click="resetTimer">
-              <v-icon>mdi-stop-circle</v-icon>
-            </v-btn>
-          </div>
+          <v-row justify="center" class="controls mt-n3">
+            <v-col cols="3">
+              <v-btn color="error" depressed fab @click="handlePauseAndResume">
+                <v-icon>
+                  {{ timerPaused ? "mdi-play" : "mdi-pause" }}
+                </v-icon>
+              </v-btn>
+            </v-col>
+            <v-col cols="3">
+              <v-btn color="error" depressed fab @click="stopTimer">
+                <v-icon>mdi-stop</v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
         </div>
       </div>
     </v-col>
@@ -76,17 +78,21 @@
 
 <script>
 import { ipcRenderer } from "electron";
+import TimerFinished from "@/views/TimerFinished";
+import TimerActive from "@/views/TimerActive";
 
 export default {
+  // eslint-disable-next-line vue/no-unused-components
+  components: { TimerFinished, TimerActive },
   data: () => ({
     taskName: "",
     timerRunning: false,
     timerPaused: false,
     timerFinished: false,
-    // selectedMinutes: 15,
     oneMinute: 60,
     secondsRemaining: null,
-    timerValueDirty: false
+    timerValueDirty: false,
+    countdown: null
   }),
 
   computed: {
@@ -117,18 +123,26 @@ export default {
 
     startTimer() {
       this.timerRunning = true;
+      this.secondsRemaining = this.timerValue * 60;
       this.runTimer();
     },
 
-    runTimer() {
-      this.secondsRemaining = this.timerValue * 60;
+    handlePauseAndResume() {
+      if (this.timerPaused) {
+        this.runTimer();
+        this.timerPaused = false;
+      } else {
+        clearInterval(this.countdown);
+        this.timerPaused = true;
+      }
+    },
 
-      let countdown = setInterval(() => {
-        if (this.timerPaused) return;
+    runTimer() {
+      this.countdown = setInterval(() => {
         if (this.secondsRemaining > 0) {
           --this.secondsRemaining;
         } else {
-          clearInterval(countdown);
+          clearInterval(this.countdown);
           this.timerFinished = true;
           ipcRenderer.send("show-app");
         }
@@ -137,13 +151,49 @@ export default {
 
     repeatTimer() {
       this.timerFinished = false;
-      this.runTimer();
+      this.startTimer();
     },
 
     resetTimer() {
+      clearInterval(this.countdown);
       this.timerRunning = false;
       this.timerFinished = false;
-    }
+    },
+
+    stopTimer() {
+      clearInterval(this.countdown);
+      this.timerRunning = false;
+      this.timerPaused = false;
+      this.timerFinished = false;
+    },
+
+    endTimer() {}
   }
 };
 </script>
+
+<style lang="scss">
+.timer-countdown .task {
+  &-name {
+    text-transform: capitalize;
+    letter-spacing: -2px !important;
+  }
+}
+
+.btn {
+  &-startTimer {
+    width: 100%;
+  }
+}
+
+.timer-input {
+  .v-text-field__suffix {
+    margin-bottom: -3px;
+    margin-right: 5px;
+    margin-left: -5px;
+    font-size: 1.5rem !important;
+    font-weight: 400;
+    letter-spacing: normal !important;
+  }
+}
+</style>

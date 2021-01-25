@@ -1,5 +1,17 @@
 # DevNotes
 
+## Electron
+
+- Use `productName` in `package.json` to set app name
+- App icon(s) go in the `build` directory. I believe this is an
+  `electron-builder` thing.
+
+## Checking if app is notarized correctly
+
+```bash
+spctl --assess ~/Desktop/timer-app.app
+```
+
 ## TODO
 
 - [ ] electron-store

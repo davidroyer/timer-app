@@ -4,7 +4,7 @@ const store = new Store({
   defaults: {
     settings: {
       defaultTime: 25,
-      settingB: false
+      useTaskNames: true
     }
   }
 });

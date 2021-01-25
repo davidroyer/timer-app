@@ -7,7 +7,7 @@ import store from "./background-process/store";
 
 // const Store = require('electron-store');
 
-const isDevelopment = process.env.NODE_ENV !== "production";
+const isDev = process.env.NODE_ENV !== "production";
 let win;
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -20,13 +20,16 @@ async function createWindow() {
     height: 440,
     minWidth: 400,
     minHeight: 140,
-    maxWidth: 600,
-    maxHeight: 300,
+    maxWidth: isDev ? null : 600,
+    maxHeight: isDev ? null : 300,
     frame: false,
-    titleBarStyle: "hidden",
+    // vibrancy: "under-window",
+    titleBarStyle: "hiddenInset",
+    // titleBarStyle: "customButtonsOnHover",
+
     // frame: false,
     isAlwaysOnTop: true,
-    resizable: false,
+    resizable: isDev ? true : false,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
@@ -65,7 +68,7 @@ app.on("activate", () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", async () => {
-  if (isDevelopment && !process.env.IS_TEST) {
+  if (isDev && !process.env.IS_TEST) {
     // Install Vue Devtools
     try {
       await installExtension(VUEJS_DEVTOOLS);
@@ -77,7 +80,7 @@ app.on("ready", async () => {
 });
 
 // Exit cleanly on request from parent process in development mode.
-if (isDevelopment) {
+if (isDev) {
   if (process.platform === "win32") {
     process.on("message", data => {
       if (data === "graceful-exit") {
