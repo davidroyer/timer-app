@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](https://github.com/davidroyer/timer-app/compare/v0.1.3...v0.1.4) (2021-01-25)
+
+
+### Features
+
+* adds auto-updater ([1680e24](https://github.com/davidroyer/timer-app/commit/1680e24ddcc63174f418a240f8e37a67c0978925))
+
+
+### Bug Fixes
+
+* **release:** reverting to best working example ([32cc4cb](https://github.com/davidroyer/timer-app/commit/32cc4cb7e59af27de73ecf29630d11f6b2267d68))
+
 ### [0.1.3](https://github.com/davidroyer/timer-app/compare/v0.1.2...v0.1.3) (2021-01-25)
 
 ### [0.1.2](https://github.com/davidroyer/timer-app/compare/v0.1.1...v0.1.2) (2021-01-25)
