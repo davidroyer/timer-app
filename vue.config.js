@@ -5,12 +5,7 @@ module.exports = {
 
       builderOptions: {
         appId: "com.electron.tasktimer",
-        publish: [
-          {
-            provider: "github",
-            vPrefixedTagName: true
-          }
-        ],
+        publish: ["github"],
         afterSign: process.env.NOTARIZE === "true" ? "build/notarize.js" : null
       }
     }
