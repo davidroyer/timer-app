@@ -15,7 +15,8 @@
     "dev": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
-    "run:version": "standard-version"
+    "run:version": "standard-version",
+    "release": "build"
   },
   "main": "background.js",
   "dependencies": {
