@@ -3,10 +3,9 @@
     <!-- <v-system-bar app lights-out color="appToolbar"></v-system-bar> -->
 
     <v-app-bar dense app flat color="appToolbar" dark>
-      <!-- <div class="font-weight-bold text-h6">TaskTimer</div> -->
-
       <v-spacer></v-spacer>
 
+      <div class="font-weight-bold text-h6">V1.3</div>
       <v-btn style="curser: none;" icon @click.stop="showSettingsView = true">
         <v-icon>mdi-settings</v-icon>
       </v-btn>
