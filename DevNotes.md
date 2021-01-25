@@ -5,6 +5,10 @@
 - Use `productName` in `package.json` to set app name
 - App icon(s) go in the `build` directory. I believe this is an
   `electron-builder` thing.
+- Icon can be PNG. The icon should be transparent.
+- The script `build/notarize.js` is what will allow the app to be downloaded by
+  others and not run into Mac security issues. It's set to run via electron
+  builder config in `vue.config.js`
 
 ## Checking if app is notarized correctly
 
